@@ -11,6 +11,7 @@ export default function AddEmployee(prop) {
   console.log(prop.lastID);
 
   const add=async(e)=>{
+    e.preventDefault();
     await addDoc(prop.employeeCollectionRef,{
       Name:name,
       Contact:contact,
@@ -19,6 +20,7 @@ export default function AddEmployee(prop) {
       Gender:gender,
       ID: prop.lastID+1
     });
+    window.location.reload();
   }
   return (
     <div>
