@@ -41,7 +41,7 @@ export default function EmployeeDetails(props) {
   return (
     <div>
         <form className="form w-full max-w-lg mx-auto my-20 p-2 rounded-lg text-white">
-          <h2 className="title-font text-2xl font-medium mx-auto mt-6 mb-6 text-center">Add Employee</h2>
+          <h2 className="title-font text-2xl font-medium mx-auto mt-6 mb-6 text-center">View/Update Employee Details</h2>
           <div className="flex flex-wrap -mx-auto mb-6">
             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-6">
               <label className="block uppercase tracking-wide   text-xs font-bold mb-2" for="name">

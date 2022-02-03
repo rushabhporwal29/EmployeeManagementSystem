@@ -3,13 +3,13 @@ import {getAuth} from'firebase/auth';
 import {getFirestore} from 'firebase/firestore';
 
 const app=initializeApp({
-  apiKey: "AIzaSyCrmso9DfTFLHDY60n3uYOgdczS-evl0WI",
-  authDomain: "employee-management-syst-aa90e.firebaseapp.com",
-  projectId: "employee-management-syst-aa90e",
-  storageBucket: "employee-management-syst-aa90e.appspot.com",
-  messagingSenderId: "736551914680",
-  appId: "1:736551914680:web:ea713579b6c9372705784d",
-  measurementId: "G-PR1FWGSTH4"
+  apiKey:process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECTID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGEING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASURMENT_ID
 });
 
 const auth=getAuth(app);
