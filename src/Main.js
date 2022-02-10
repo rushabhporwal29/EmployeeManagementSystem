@@ -7,22 +7,24 @@ import Footer from './components/Main/partials/Footer'
 import Employees from './components/Main/Employees'
 import Attendance from './components/Main/Attendance'
 import EmployeeDetails from './components/Main/Employee/EmployeeDetails';
+import AttendanceDetails from './components/Main/Attendance/AttendanceDetails';
 
 export default function Main() {
   return (
     <div>
-        <Navbar/>
-        <div className="content">
+      <Navbar/>
+      <div className="content">
         <Router>
           <Routes>
               <Route path="/employees" element={<Employees/>}/>
               <Route path="/attendance" element={<Attendance/>}/>
               <Route path="/employees/:employeeID" element={<EmployeeDetails/>}></Route>
+              <Route path="/attendances/:attendanceID" element={<AttendanceDetails/>}></Route>
           </Routes>
         </Router>
-        </div>
-        <Footer/>
       </div>
+      <Footer/>
+    </div>
   )
 }
 

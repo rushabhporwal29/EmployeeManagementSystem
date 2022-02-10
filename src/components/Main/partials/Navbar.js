@@ -4,7 +4,8 @@ import { auth } from '../../../FirebaseConfig'
 
 export default function Navbar() {
   function userSignOut(){
-    window.location.replace('/')
+    window.location.replace('../')
+    window.history.go(-(window.history.length - 1))
     signOut(auth)
   }
   return (
