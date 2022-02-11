@@ -99,7 +99,7 @@ export default function ViewAttendance(prop) {
                   </div>
               </td>
               <td className="px-4 py-3 text-ms font-semibold border">
-                <p className="font-semibold text-white">{attendance.attendance.join(',')}</p>
+                <p className="font-semibold text-white">{attendance.time.join(', ')}</p>
               </td>              
             </tr>)
           })}

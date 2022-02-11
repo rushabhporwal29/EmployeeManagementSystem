@@ -1,50 +1,49 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
-import { addDoc, arrayUnion, doc, setDoc } from "firebase/firestore";
+import { addDoc, arrayUnion, doc, setDoc,getDocs, collection, getDoc } from "firebase/firestore";
 import { db } from "../../../FirebaseConfig";
 
 export default function AddAttendance(prop) {
 	const [name, setName] = useState("");
 	const [id, setId] = useState("");
-	const [date, setDate] = useState(	new Date()
-  .toLocaleDateString("en-GB")
-  .split("/")
-  .reverse()
-  .join("/"));
-	const [time, setTime] = useState(new Date().toTimeString().split(" ")[0]);
+	const [employees,setEmployees]=useState([]);
+	const [date, setDate] = useState(	new Date().toLocaleDateString("en-GB"));
+	const [time, setTime] = useState();
 	const dateRef = useRef("");
 	dateRef.current = date;
 	const timeRef = useRef("");
 	timeRef.current = time;
-
+	const employeeCollectionRef= collection(db, 'Employee');
 	const createAttendance = async (e) => {
 		e.preventDefault();
-
+		let finalTime= time?time:(new Date().toTimeString().split(" ")[0])
+		let employeeName=await employees.filter((employee)=>{if(employee.ID==id)return employee.Name})[0].Name;
+		let finalDate=date.split("/").reverse().join("-")
+		let docID=id+"D"+date.split("/").reverse().join("")
 		console.log(
-			name + " local " + id + "-" + date + "-" + time
+			id+" "+employeeName + " local " + docID+ "/" + finalTime
 		);
-		if (id !== "") {
-			await setDoc(
-				doc(
-					prop.attendanceCollectionRef,
-					date.split("/").join("-") + " " + id
-				),
-				{
-					time: arrayUnion(time),
-				},
-				{ merge: true }
-			);
-		}
-		// await addDoc(prop.employeeCollectionRef,{
-		//   Name:name,
-		//   Contact:contact,
-		//   City:city,
-		//   Address:address,
-		//   Gender:gender,
-		//   ID: prop.lastID+1
-		// });
+		let attendanceRef=await doc(prop.attendanceCollectionRef,docID);
+		console.log(attendanceRef);
+		await setDoc(attendanceRef,{
+			eid:id,
+			name:employeeName,
+			date:finalDate,
+			time:arrayUnion(finalTime)
+		},{merge:true})
+		alert(employeeName+" "+finalTime+" "+finalDate+" added");
+		setName("");
+		setId("");
 		// window.location.reload();
 	};
+
+	useEffect(()=>{
+		const getEmployees=(async()=>{
+			const data=await getDocs(employeeCollectionRef)
+      setEmployees(data.docs.map((doc)=>({...doc.data(),id:doc.id})));
+		})
+		getEmployees();
+	},[])
 	return (
 		<div>
 			<form className="form w-full max-w-lg mx-auto my-20 p-2 rounded-lg text-white">
@@ -59,7 +58,14 @@ export default function AddAttendance(prop) {
 						>
 							Name
 						</label>
-						<input
+						<select className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="name" id="name" value={name} onChange={(e) => {setId(e.target.value);}}>
+						<option value="">Select Your Name</option>
+							{employees.map((employee)=>{
+								return(
+								<option key={employee.ID} value={employee.ID}>{employee.Name}</option>
+							)})}
+						</select>
+						{/* <input
 							className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
 							required
 							id="name"
@@ -69,8 +75,7 @@ export default function AddAttendance(prop) {
 							onChange={(e) => {
 								setName(e.target.value);
 							}}
-						/>
-						{name}
+						/> */}
 					</div>
 					<div className="w-full md:w-1/3 px-3 mb-6 md:mb-6">
 						<label
@@ -88,6 +93,7 @@ export default function AddAttendance(prop) {
 							onChange={(e) => {
 								setId(e.target.value);
 							}}
+							value={id}
 						/>
 					</div>
 					<div className="w-full md:w-1/3 px-3 mb-6 md:mb-6">
@@ -108,7 +114,6 @@ export default function AddAttendance(prop) {
 							}}
 						/>
 					</div>
-					{date}
 					<div className="w-full md:w-1/3 px-3 mb-6 md:mb-6">
 						<label
 							className="block uppercase tracking-wide   text-xs font-bold mb-2"
@@ -127,7 +132,6 @@ export default function AddAttendance(prop) {
 							}}
 						/>
 					</div>
-					{time}
 				</div>
 				<div className="flex flex-wrap -mx-auto mb-6 text-center">
 					<div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">

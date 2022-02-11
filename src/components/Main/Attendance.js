@@ -8,7 +8,7 @@ import AddAttendance from './Attendance/AddAttendance';
 
 export default function Attendances(){
   const [toggle, settoggle] = useState(false);
-  const [buttonText,setbuttonText]=useState('View Attendance');
+  const [buttonText,setbuttonText]=useState('Add Attendance');
   const attendanceCollectionRef= collection(db, 'Attendance');
 
   const toggleComponents=()=>{

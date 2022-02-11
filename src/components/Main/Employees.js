@@ -27,7 +27,7 @@ export default function Employees(){
   return (
     <div className='p-5'>
         <button className='my-5 inline-flex text-center items-center bg-green-700 border-0 py-1 px-3 focus:outline-none hover:bg-green-900 rounded text-base mt-4 md:mt-0' onClick={()=>{toggleComponents()}}>{buttonText}</button>
-        {toggle===false?<ViewEmployee employees={employees}/>:<AddEmployee employeeCollectionRef={employeeCollectionRef} />}
+        {toggle===false?<ViewEmployee employees={employees}/>:<AddEmployee lastID={employees[0].ID} employeeCollectionRef={employeeCollectionRef} />}
 
     </div>
   );
