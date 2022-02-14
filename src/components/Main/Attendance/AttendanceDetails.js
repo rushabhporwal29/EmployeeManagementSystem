@@ -19,7 +19,7 @@ export default function AttendanceDetails() {
       setName(Attendance.name);
       setEid(Attendance.eid);
       setDate(Attendance.date+'');
-      setTime(Attendance.attendance);
+      setTime(Attendance.time);
       
     };
     getAttendance();
@@ -28,10 +28,8 @@ export default function AttendanceDetails() {
   const updateAttendance=async (e)=>{
     e.preventDefault()
     const result = await updateDoc(attendanceRef,{
-      Name:name,
-      eid: eid,
       date: date,
-      attendance: Time
+      time: Time
     })
     console.log(result);
     window.location.reload()

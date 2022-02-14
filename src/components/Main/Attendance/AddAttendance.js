@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
-import { addDoc, arrayUnion, doc, setDoc,getDocs, collection, getDoc } from "firebase/firestore";
+import { arrayUnion, doc, setDoc,getDocs, collection } from "firebase/firestore";
 import { db } from "../../../FirebaseConfig";
 
 export default function AddAttendance(prop) {
@@ -19,7 +19,7 @@ export default function AddAttendance(prop) {
 		let finalTime= time?time:(new Date().toTimeString().split(" ")[0])
 		let employeeName=await employees.filter((employee)=>{if(employee.ID==id)return employee.Name})[0].Name;
 		let finalDate=date.split("/").reverse().join("-")
-		let docID=id+"D"+date.split("/").reverse().join("")
+		let docID=id+"D"+finalDate.split("-").join("")
 		console.log(
 			id+" "+employeeName + " local " + docID+ "/" + finalTime
 		);
