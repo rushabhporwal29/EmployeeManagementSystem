@@ -12,7 +12,7 @@ import { auth } from './FirebaseConfig';
 
 
 function App() {
-  const [user, loading, error] = useAuthState(auth);
+  useAuthState(auth);
   return (
     
     <div className="App">

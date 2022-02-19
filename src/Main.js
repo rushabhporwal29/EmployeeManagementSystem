@@ -1,5 +1,5 @@
 import React from 'react'
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom';
 
 import Navbar from './components/Main/partials/Navbar'
 import Footer from './components/Main/partials/Footer'
@@ -16,10 +16,12 @@ export default function Main() {
       <div className="content">
         <Router>
           <Routes>
-              <Route path="/employees" element={<Employees/>}/>
-              <Route path="/attendance" element={<Attendance/>}/>
-              <Route path="/employees/:employeeID" element={<EmployeeDetails/>}></Route>
-              <Route path="/attendances/:attendanceID" element={<AttendanceDetails/>}></Route>
+          <Route path="/" element={<Navigate replace to="/attendance"/>}/>
+          <Route path="/employees" element={<Employees/>}/>
+          <Route path="/attendance" element={<Attendance/>}/>
+          <Route path="/employees/:employeeID" element={<EmployeeDetails/>}></Route>
+          <Route path="/attendances/:attendanceID" element={<AttendanceDetails/>}></Route>
+          <Route path="*" element={<Navigate replace to="/"/>}/>
           </Routes>
         </Router>
       </div>

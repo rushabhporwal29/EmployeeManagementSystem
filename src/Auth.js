@@ -2,15 +2,29 @@ import React from 'react'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import SignIn from './components/Auth/SignIn';
 import SignUp from './components/Auth/SignUp';
+import AddAttendance from './components/Main/Attendance/AddAttendance';
 
 function Auth(){
   return (
     <div className="Auth">
       <Router>
        <Routes>
-          <Route exact path="/" element={<SignIn/>}/>
+          <Route exact path="/" element={
+            <>
+              <a href="/signIn" className='md:ml-auto flex flex-wrap items-center text-base justify-end'>
+                <button 
+                  className="m-2  text-white bg-blue-500 border-2 border-blue-900 p-1 focus:outline-none hover:bg-blue-600 rounded"
+                >
+                  SignIn / SignUp
+                </button>
+              </a>
+              <AddAttendance/>
+
+            </>
+          }/>
           <Route path="/signUp" element={<SignUp/>}/>
           <Route path="/signIn" element={<SignIn/>}/>
+          {/* <Route path="/attendance/mark" element={<AddAttendance/>}/> */}
         </Routes>
       </Router>
     </div>
