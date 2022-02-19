@@ -54,11 +54,11 @@ export default function AddAttendance(prop) {
 						>
 							Name
 						</label>
-						<select className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="name" id="name" value={name} onChange={(e) => {setId(e.target.value);}}>
+						<select className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="name" id="name" value={name} onChange={(e) => {setName(e.target.value);setId(e.target.value.split("_")[1]);}}>
 						<option value="">Select Your Name</option>
 							{employees.map((employee)=>{
 								return(
-								<option key={employee.ID} value={employee.ID}>{employee.Name}</option>
+								<option key={employee.ID} value={employee.Name+"_"+employee.ID}>{employee.Name}</option>
 							)})}
 						</select>
 						{/* <input
