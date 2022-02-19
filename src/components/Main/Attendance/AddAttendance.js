@@ -9,10 +9,6 @@ export default function AddAttendance(prop) {
 	const [employees,setEmployees]=useState([]);
 	const [date, setDate] = useState(	new Date().toLocaleDateString("en-GB"));
 	const [time, setTime] = useState();
-	const dateRef = useRef("");
-	dateRef.current = date;
-	const timeRef = useRef("");
-	timeRef.current = time;
 	const employeeCollectionRef= collection(db, 'Employee');
 	const createAttendance = async (e) => {
 		e.preventDefault();

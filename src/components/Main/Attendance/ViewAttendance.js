@@ -1,6 +1,7 @@
-import {React, useState, useEffect}  from 'react'
+import {React, useState, useLayoutEffect}  from 'react'
 import { deleteDoc, getDocs, query, orderBy, doc  } from 'firebase/firestore'
 import { db } from '../../../FirebaseConfig';
+import WorkHours from './WorkHours';
 
 
 export default function ViewAttendance(prop) {
@@ -28,32 +29,20 @@ export default function ViewAttendance(prop) {
       return a.eid===searchID || (a.date>=fromDate && a.date<=toDate)
     }))
   }
+  
 
-  useEffect(()=>{
+  useLayoutEffect(()=>{
 
+    
+    
     const getAttendances=async()=>{
       const attendanceQuery= query(prop.attendanceCollectionRef, orderBy('date','desc'));
       const data=await getDocs(attendanceQuery);
       await setAttendances(data.docs.map((doc)=>({...doc.data(),id:doc.id})));
-      // await setAttendances(attendances.map((attendance)=>({...attendance,workHours:workHours(attendance)})));
     }
-    const workHours=async (attendance)=>{
-      const convertToMinutes=(time)=>{
-        const [hours,minutes,seconds]=time.split(":");
-        return parseInt(hours)*60+parseInt(minutes);
-      }
-      console.log("hi");
-      let workHours=0;
-      let len=attendance.time.length%2===0?attendance.time.length:attendance.time.length-1;
-      let i=0;
-      for (i = 0; i < len; i+=2) {
-        workHours+=await(convertToMinutes(attendance.time[i+1])-convertToMinutes(attendance.time[++i]));
-      }
-      workHours=toString(workHours/60)+":"+toString(workHours%60);
-      console.log("H@",workHours);
-      return workHours;
-    };
+    
     getAttendances();
+    
     
   },[]);
 
@@ -88,7 +77,7 @@ export default function ViewAttendance(prop) {
             </tr>
         </thead>
         <tbody>
-        {attendances.map((attendance)=>{
+        {attendances.map((attendance,index)=>{
           return (
             <tr className="text-gray-700">
               
@@ -96,22 +85,22 @@ export default function ViewAttendance(prop) {
                 <p className="font-semibold text-white">{attendance.date}</p>
               </td>
               <td className="px-4 py-3 text-ms font-semibold border">
-                <p className="font-semibold text-white">{attendance.eid}</p>
+                <p key={attendance.id} className="font-semibold text-white">{attendance.eid}</p>
               </td>
               <td className="px-4 py-3 border">
-                  <p className="font-semibold text-white">{attendance.name}</p>
+                <p key={attendance.id} className="font-semibold text-white">{attendance.name}</p>
               </td>
               <td className="px-4 py-3 border">
-              <p className="font-semibold text-white">{attendance.workHours}</p>          
+                <p key={attendance.id} className="font-semibold text-white">{<WorkHours attendance={attendance} />}</p>          
               </td>
               <td className="px-4 py-3 text-ms border">
-                <p className="font-semibold text-white">{attendance.time.join(', ')}</p>
+                <p key={attendance.id} className="font-semibold text-white">{attendance.time.join(', ')}</p>
               </td> 
               <td className="px-4 py-3 text-sm border">
-                  <a href={"/attendances/"+ attendance.id } className="text-yellow-400 hover:text-gray-100 mx-2" title="View And Edit Attendance">
+                  <a key={attendance._id} href={"/attendances/"+ attendance.id } className="text-yellow-400 hover:text-gray-100 mx-2" title="View And Edit Attendance">
                       <i className="fas fa-pencil-alt"></i>
                   </a>
-                  <button className="text-red-400 hover:text-gray-100 ml-2" onClick={()=>{deleteAttendance(attendance.id)}} title="Delete Attendance">
+                  <button key={attendance._id} className="text-red-400 hover:text-gray-100 ml-2" onClick={()=>{deleteAttendance(attendance.id)}} title="Delete Attendance">
                       <i className="fas fa-trash-alt"></i>                
                   </button>
               </td>             
